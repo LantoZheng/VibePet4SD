@@ -1,0 +1,15 @@
+1.问：无法打开arduino文件
+   答：修改最外面的文件名，如全英文的ABC
+2.问：编译时提示TimeLib.h：No such file or directory
+   答：arduino软件->项目->加载库->管理库->类型选全部，主题选全部->搜索栏搜TimeLib.h，弹出一个Time库
+         选最新的安装，我安装的是1.6.1版本。
+3.问：编译时提示<TFT_eSPI.h>：No such file or directory
+  答：arduino软件->项目->加载库->管理库->类型选全部，主题选全部->搜索栏搜TFT_eSPI.h，弹出几个库
+         选TFT_eSPI库安装。选最新的安装，我安装的是2.4.51版本。
+4.问：编译时提示<TJpg_Decoder.h>：No such file or directory
+  答：arduino软件->项目->加载库->管理库->类型选全部，主题选全部->搜索栏搜TJpg_Decoder.h，弹出1个库
+         选最新的安装，我安装的是1.0.3版本。
+5.问：编译时提示<WiFiManager.h>：No such file or directory
+  答：arduino软件->项目->加载库->管理库->类型选全部，主题选全部->搜索栏搜WiFiManager.h，弹出几个库
+         选WiFiManager库安装。选最新的安装，我安装的是2.0.11版本。
+
