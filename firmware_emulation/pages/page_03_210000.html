@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="/js/zk.js"></script>
+    <style></style>
+  </head>
+  
+  <body>
+    <div class="block">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>城市设置</div>
+	  </div>
+      <div class="card">
+        <div class="city">
+          <!-- <div class="title">注意： -->
+            <!-- <br />地名不要写市、区、县等后缀；例如要获取北京市海淀区的城市码，只需输入海淀</div> -->
+          <div class="search-city-code">
+            <!-- <div class="input-wrap"> -->
+              <!-- <input type="text" id="city-name" placeholder="填写要查询的地名"> -->
+              <!-- <button onclick="getCityCode()">查询城市码</button></div> -->
+            <div class="result-wrap">
+              <label for="">城市码：</label>
+              <input type="text" id="city-code" placeholder="9位数城市码" style="width:50%">
+			</div>
+            <div class="result-wrap">
+              <label for="">城市名：</label>
+              <input type="text" id="city-name" placeholder="城市名" style="width:50%">
+			</div>
+              <span>注：</br>城市码和城市名填一个即可，如果都填只会城市码有效。</br>如果填城市名不要写：市、区、县等后缀；例如您所在地为北京市海淀区，只需输入海淀。</span>
+			<!-- <span>如不知道城市码，可在<a href="http://www.weather.com.cn/" target="_blank">这里</a>搜索您所在的城市，并在地址栏看到的9位数字就是城市码</span> -->
+          </div>
+        </div>
+      </div>
+	  <div class="card">
+          <div class="save-btn">
+            <button onclick="OnSave()">保存</button></div>
+	  </div>
+	  <div class="card">
+          <div class="save-btn">
+            <button onclick="OnReset()">重置城市</button></div>
+	  </div>
+    </div>
+    <div id="toast-container"></div>
+
+<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	let citycode = document.getElementById('city-code');
+	citycode.value = JSON.parse(localStorage.getItem('cc'));
+
+	let cityname = document.getElementById('city-name');
+	cityname.value = JSON.parse(localStorage.getItem('cn'));
+
+function OnSave() {
+	const citycode = document.getElementById('city-code').value;
+	const cityname = document.getElementById('city-name').value;
+	let _sendData='/SetCity?';
+	if(citycode!="")
+	{
+		if (!validateInput(citycode))
+		{
+			message("城市码是9位数！！", 2000);
+			return;
+		}
+		_sendData+= 'CityCode='+citycode;
+	}
+	else if(cityname!="")
+	{
+		_sendData+= 'CityName='+cityname;
+	}
+	if(_sendData!='/SetCity?')
+	{
+		_sendData+= '&Save';
+		console.log(_sendData);
+		sendData(_sendData,1);
+/* 		var xhr = new XMLHttpRequest();
+		xhr.open("GET", _sendData, true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				//callback(xhr.responseText);
+				message("保存成功");
+			}
+			else
+			{
+				showToast(xhr.responseText, 2000);
+				console.log(xhr.status+":"+xhr.responseText);
+			}
+		}
+		xhr.send(); */
+	}
+	else message("不能都为空", 2000);
+}
+function OnReset() {
+	let _sendData='/SetCity?Reset=1';
+	sendData(_sendData,1);
+}
+function validateInput(input) {
+  var pattern = /^\d{9}$/; // 使用正则表达式 /^\d{9}$/ 来匹配9位数字
+  return pattern.test(input);
+}
+</script>
+</body>
+
+</html>

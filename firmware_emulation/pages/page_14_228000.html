@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="/js/zk.js"></script>
+    <style></style>
+  </head>
+  
+  <body>
+    <div class="block">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>特殊屏幕</div>
+	  </div>
+      <div class="card">
+        <div class="tips">某些屏幕亮度、颜色是相反的，此处设置。</div>
+        <div class="tips">保存后重启生效。</div>
+	  </div>
+	  <div class="card">
+        <div class="bright" style="display: flex;align-items: center;">
+          <span>亮度相反：</span>
+          <label class="switch">
+            <input id="bright-input" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="save-btn">
+          <button onclick="setSpecialScreen(1)">保存</button></div>
+      </div>
+      <div class="card">
+        <div class="colors" style="display: flex;align-items: center;">
+          <span>颜色反转：</span>
+          <label class="switch">
+            <input id="color-input" type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="save-btn">
+          <button onclick="setSpecialScreen(2)">保存</button></div>
+      </div>
+    </div>
+    <div id="toast-container"></div>
+  </body>
+<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	let storedValue = JSON.parse(localStorage.getItem('xb'));
+	let checkbox = document.getElementById("bright-input");
+	if (storedValue === 1) {
+	  checkbox.checked = true; // 将 checkbox 设置为选中状态
+	} else {
+	  checkbox.checked = false; // 将 checkbox 设置为未选中状态
+	}
+	storedValue = JSON.parse(localStorage.getItem('xc'));
+	checkbox = document.getElementById("color-input");
+	if (storedValue === 1) {
+	  checkbox.checked = true; // 将 checkbox 设置为选中状态
+	} else {
+	  checkbox.checked = false; // 将 checkbox 设置为未选中状态
+	}
+	
+	function setSpecialScreen(index) {
+		let _sendData;
+		if(index==1)
+		{
+			const BrightInvert = document.querySelector(".bright input").checked ? "1" : "0";
+			_sendData = '/SetCommand?BrightInvert='+BrightInvert+"&Save";
+		}
+		else if(index==2)
+		{
+			const ColorInvert = document.querySelector(".colors input").checked ? "1" : "0";
+			_sendData = '/SetCommand?ColorInvert='+ColorInvert+"&Save";
+		}
+		console.log(_sendData);
+		sendData(_sendData,1);
+	}
+</script>
+
+</html>

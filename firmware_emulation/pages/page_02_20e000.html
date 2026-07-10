@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+	<script src="/js/zk.js"></script>
+    <style>
+    .light-brightness {
+      display: flex; /* 设置为flex容器 */
+      align-items: center; /* 垂直居中 */
+    }
+    .lightvalue {
+      display: inline-block;
+      width: 30px; /* 设置固定宽度 */
+      text-align: center; /* 控制内容水平居中 */
+    }
+	</style>
+  </head>
+  
+  <body>
+    <div class="block" style="height: auto;">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>亮度设置</div>
+	  </div>
+      <div class="card" >
+          <div style="margin:15px;">
+		  注意：</br>若当前时间在定时亮度时间段内调节背光亮度不起作用，背光亮度按照定时亮度变化！
+		  </div>
+          <div class="light-brightness" id="brightness-wrapper">
+            <span>屏幕亮度：</span>
+            <input type="range" id="light-input" min="0" max="255" value="50" step="1">
+			<span id="lightvalue" class="lightvalue">50</span>
+		  </div>
+        <div class="btn-group">
+          <button class="btn-save" onclick="OnSave()">保存</button>
+		</div>
+      </div>
+      <div class="card line-height">
+          <div class="plan-time">
+          <div class="switch-btn">
+            <span>定时亮度：</span>
+            <label class="switch">
+              <input type="checkbox" id="led-enable" />
+              <span class="slider"></span>
+            </label>
+          </div>
+            <div class="start-time">
+				<span>开始时间：</span>
+					<select id="start-time" style="width:71px;line-height: 1.0em;"></select>
+			</div>
+            <div class="end-time">
+				<span>结束时间：</span>
+					<select id="end-time" style="width:71px;line-height: 1.0em;"></select>
+			</div>
+            <div class="light-brightness">
+				<span>定时亮度：</span>
+				<input id="planlight-input" type="range"  min="0" max="255" value="50" step="1"/>
+				<span id="planlightvalue" class="lightvalue">50</span>
+			</div>
+		  </div>
+		  <div class="btn-group">
+          <button class="btn-save" onclick="OnSavePlan()">保存</button>
+		  </div>
+      </div>
+
+    </div>
+    <div id="toast-container"></div>
+	<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	let slider = document.getElementById("light-input");
+	let output = document.getElementById("lightvalue");
+	let result = JSON.parse(localStorage.getItem('bt'));
+	//let result = Math.round((x - min1) * (max2 - min2) / (max1 - min1) + min2);
+	slider.value = result;
+	output.innerHTML = result;
+	slider.oninput = function() {
+		output.innerHTML = this.value;
+	};
+	let checkbox = document.getElementById("led-enable");
+	checkbox.checked = JSON.parse(localStorage.getItem('pe'));
+
+	let slider2 = document.getElementById("planlight-input");
+	let output2 = document.getElementById("planlightvalue");
+	let result2 = JSON.parse(localStorage.getItem('pb'));
+	//let result2 = Math.round((x2 - min1) * (max2 - min2) / (max1 - min1) + min2);
+	slider2.value = result2;
+	output2.innerHTML = result2;
+	slider2.oninput = function() {
+		output2.innerHTML = this.value;
+	};
+
+	let selectstart = document.getElementById('start-time');
+	for (let i = 0; i <= 23; i++) {
+		let option = document.createElement('option');
+		option.value = i;
+		option.text = i;
+		if (i === 20) {
+		  option.selected = true;
+		}
+		selectstart.add(option);
+	}
+	selectstart.value = JSON.parse(localStorage.getItem('pbs'));
+	
+	let selectend = document.getElementById('end-time');
+	for (let i = 0; i <= 23; i++) {
+		let option = document.createElement('option');
+		option.value = i;
+		option.text = i;
+		if (i === 7) {
+		  option.selected = true;
+		}
+		selectend.add(option);
+	}
+	selectend.value = JSON.parse(localStorage.getItem('pbe'));
+	let enable=0;
+	document.querySelector('input[type="checkbox"]').addEventListener('change', function (e) {
+		const isPlan = e.target.checked;
+		if (isPlan) {
+			enable=1;
+		} else {
+			enable=0;
+		}
+	});
+	
+    const inputElement = document.getElementById('light-input');
+    inputElement.addEventListener('mouseup', handleInputEvent);
+    inputElement.addEventListener('touchend', handleInputEvent);
+    function handleInputEvent() {
+        const lightValue = inputElement.value;
+		console.log(lightValue);
+        const _sendData = '/SetBrightness?Value='+lightValue;
+		//sendData(_sendData);
+ 		var xhr = new XMLHttpRequest();
+		xhr.open("GET", _sendData, true);
+		xhr.send(); /**/
+    }
+	
+	function OnSave() {
+		const lightValue = document.getElementById('light-input').value;
+		const _sendData = '/SetBrightness?Value='+lightValue+'&Save';
+		sendData(_sendData,1);
+	}
+
+	function OnSavePlan() {
+			const startTime = document.getElementById("start-time").value;
+			const endTime = document.getElementById("end-time").value;
+			const planLight = document.getElementById("planlight-input").value;
+			const _sendData = '/SetPlanBrightness?Enable='+enable+'&BrightValue='+planLight+'&StartTime='+startTime+'&EndTime='+endTime;
+			sendData(_sendData,1);
+	}
+	</script>
+</body>
+</html>

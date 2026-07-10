@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="js/zk.js"></script>
+    <style></style>
+  </head>
+  
+  <body>
+    <div class="block">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>时钟设置</div>
+	  </div>
+      <div class="card">
+            <div class="middle">
+              <div>选择时区：</div>
+              <div class="clock-type">
+                <select id="timezone">
+                    <option value="-12">UTC-12（西十二区）</option>
+                    <option value="-11">UTC-11（西十一区）</option>
+                    <option value="-10">UTC-10（西十区）</option>
+                    <option value="-9">UTC-9（西九区）</option>
+                    <option value="-8">UTC-8（西八区）</option>
+                    <option value="-7">UTC-7（西七区）</option>
+                    <option value="-6">UTC-6（西六区）</option>
+                    <option value="-5">UTC-5（西五区）</option>
+                    <option value="-4">UTC-4（西四区）</option>
+                    <option value="-3">UTC-3（西三区）</option>
+                    <option value="-2">UTC-2（西二区）</option>
+                    <option value="-1">UTC-1（西一区）</option>
+                    <option value="0">UTC（零时区）</option>
+                    <option value="1">UTC+1（东部区）</option>
+                    <option value="2">UTC+2（东部区）</option>
+                    <option value="3">UTC+3（东部区）</option>
+                    <option value="4">UTC+4（东部区）</option>
+                    <option value="5">UTC+5（东部区）</option>
+                    <option value="6">UTC+6（东部区）</option>
+                    <option value="7">UTC+7（东部区）</option>
+                    <option value="8" selected>UTC+8（北京时间）</option>
+                    <option value="9">UTC+9（东部区）</option>
+                    <option value="10">UTC+10（东部区）</option>
+                    <option value="11">UTC+11（东部区）</option>
+                    <option value="12">UTC+12（东部区）</option>
+                </select>
+              </div>
+            </div>
+			<div style="margin: 10px 10px 10px 10px ">
+			<div>NTP服务器：</div>
+				<input id="ntp" type="text" placeholder="确保你了解再更改" />
+			</div>
+			<div>保存后重启生效</div>
+      </div>
+      <div class="card">
+        <div class="save-btn">
+          <button onclick="OnSave()">保存</button></div>
+      </div>
+    </div>
+    <div id="toast-container"></div>
+  </body>
+
+<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	
+	var selectedValue=8;
+	let select = document.getElementById('timezone');
+	select.value = JSON.parse(localStorage.getItem('tz'));
+	console.log("zone:"+select.value);
+	let text = document.getElementById('ntp');
+	text.value = JSON.parse(localStorage.getItem('NTP'));
+	select.addEventListener('change', function() {
+		const selectedOption = select.options[select.selectedIndex];
+		selectedValue = selectedOption.value;
+	});
+    function OnSave() {
+		if(selectedValue==100)
+		{
+			message("请选择时区",1500);
+			return;
+		}
+		const ntp = document.getElementById('ntp').value;
+		let _sendData = '/SetTimeZone?Value='+selectedValue;
+		if(ntp!="")
+		{
+			_sendData += '&NTP=' + ntp;
+			var result = window.confirm("你确定要修改NTP服务器吗？\r\n如果修改为错误的NTP服务器将导致小电视不能再读取时间！");
+			if (!result && ntp!="")
+			{
+				return;
+			}
+		}
+		_sendData += '&Save'
+		console.log(_sendData);
+		sendData(_sendData,1);
+    }
+</script>
+</html>

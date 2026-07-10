@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css" />
+	<script src="/js/zk.js"></script>
+    <style>
+		.clock .content .clock-lists { 
+		width: 100%; 
+		padding: 10px; 
+		box-sizing: border-box; 
+		display: flex; 
+		flex-direction: column; 
+		align-items: center; 
+		justify-content: center; 
+		list-style: none; 
+		} 
+		.clock-item { 
+		width: 100%; 
+		display: flex; 
+		flex-direction: column; 
+		align-items: center; 
+		justify-content: center; 
+		background: #F5F5F5; 
+		box-shadow: 0 0 10px #ccc; 
+		padding: 30px; 
+		border-radius: 5px; 
+		} 
+		.clock-item .top { 
+		width: 100%; 
+		display: flex; 
+		flex-direction: row; 
+		align-items: center; 
+		justify-content: flex-start; 
+		} 
+		.clock-item .middle { 
+		width: 100%; 
+		margin: 10px; 
+		display: flex; 
+		flex-direction: row; 
+		align-items: center; 
+		justify-content: 
+		flex-start; 
+		}
+		.clock-item .bottom { 
+		width: 100%; 
+		display: flex; 
+		flex-direction: row; 
+		align-items: center; 
+		justify-content: flex-start; 
+		} 
+		.clock-item .bottom .clock-time { 
+		display: flex; 
+		} 
+		.clock-item .bottom .clock-time .minutes { 
+		margin-left: 10px; 
+		}
+		.add-btn{
+		margin-top: 20px;
+		}
+  </style>
+  </head>
+  <body>
+    <div class="block" style="height: auto;">
+      <div class="card" style="align-items: normal;flex-direction: row;">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>闹钟设置</div>
+	  </div>
+      <div class="card">
+        <div class="clock">
+          <div class="title">
+            <!-- 有序列表，小数字显示 -->
+            <ol>
+              <li>1.本次设置将覆盖以前的设置；</li>
+              <li>2.如需关闭闹钟功能，全都不启用，保存；</li>
+              <li>3.显示闹钟图标，即在小电视上显示图标；</li>
+              <li>4.停止播放按钮，立即停止闹铃播放；</li>
+			</ol>
+          </div>
+          <div class="content">
+            <ul class="clock-lists">
+              <li class="clock-item">
+                <div class="top">
+                  <div class="switch-btn">
+                    <span>显示闹钟图标：</span>
+                    <label class="switch">
+                      <input type="checkbox" id="enable0" onchange="sendGetRequest(0)" />
+                      <span class="slider"></span>
+                    </label>
+                    <button class="btn-save" onclick="OnShowIcon()">保存</button></div>
+                </div>
+          </div>
+          </li>
+          <li class="clock-item">
+            <div class="top">
+              <div class="switch-btn">
+                <span>闹钟启用：</span>
+                <label class="switch">
+                  <input type="checkbox" id="enable1" onchange="sendGetRequest(1)" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="middle">
+              <div>闹钟类型：</div>
+              <div class="clock-type">
+                <select id="clock-type1">
+                  <option value="1" selected>只响一次</option>
+                  <option value="2">只工作日</option>
+                  <option value="3">每天响铃</option></select>
+              </div>
+            </div>
+            <div class="bottom">
+              <div>闹钟时间：</div>
+              <div class="clock-time">
+                <div class="hour">
+                  <input id="hour-time1" type="time" style="width:75px" /></div>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button class="" onclick="OnSave(1)">保存</button>
+              <button class="" onclick="OnDelete(1)">删除</button></div>
+          </li>
+          <li class="clock-item">
+            <div class="top">
+              <div class="switch-btn">
+                <span>闹钟启用：</span>
+                <label class="switch">
+                  <input type="checkbox" id="enable2" onchange="sendGetRequest(2)" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="middle">
+              <div>闹钟类型：</div>
+              <div class="clock-type">
+                <select id="clock-type2">
+                  <option value="1">只响一次</option>
+                  <option value="2" selected>只工作日</option>
+                  <option value="3">每天响铃</option></select>
+              </div>
+            </div>
+            <div class="bottom">
+              <div>闹钟时间：</div>
+              <div class="clock-time">
+                <div class="hour">
+                  <input id="hour-time2" type="time" style="width:75px" /></div>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button class="" onclick="OnSave(2)">保存</button>
+              <button class="" onclick="OnDelete(2)">删除</button></div>
+          </li>
+          <li class="clock-item">
+            <div class="top">
+              <div class="switch-btn">
+                <span>闹钟启用：</span>
+                <label class="switch">
+                  <input type="checkbox" id="enable3" onchange="sendGetRequest(3)" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="middle">
+              <div>闹钟类型：</div>
+              <div class="clock-type">
+                <select id="clock-type3">
+                  <option value="1">只响一次</option>
+                  <option value="2">只工作日</option>
+                  <option value="3" selected>每天响铃</option></select>
+              </div>
+            </div>
+            <div class="bottom">
+              <div>闹钟时间：</div>
+              <div class="clock-time">
+                <div class="hour">
+                  <input id="hour-time3" type="time" style="width:75px" /></div>
+              </div>
+            </div>
+            <div class="btn-group">
+              <button class="" onclick="OnSave(3)">保存</button>
+              <button class="" onclick="OnDelete(3)">删除</button></div>
+          </li>
+          </ul>
+        </div>
+      </div>
+		<div class="card" style="">
+		<div class="save-btn" style="height:65px;overflow: hidden;" >
+          <button onclick="OnStop()">停止播放</button>
+		</div>
+		</div>
+    </div>
+
+    <div id="toast-container"></div>
+  </body>
+  <script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	/*for (let i = 0; i <= 3; i++) {
+	  const storedValue = i === 0 ? JSON.parse(localStorage.getItem('ai')) : JSON.parse(localStorage.getItem(`ae${i}`));
+	  let checkbox = i === 0 ? document.getElementById("enable0") : document.getElementById(`enable${i}`);
+	  checkbox.checked = storedValue === 1;
+	}*/
+	var checkbox0 = document.getElementById("enable0");
+	checkbox0.checked = JSON.parse(localStorage.getItem('ai'));
+
+	for (let i = 1; i <= 3; i++) {
+		const storedValue = JSON.parse(localStorage.getItem(`ae${i}`));
+		var checkbox = document.getElementById(`enable${i}`);
+		checkbox.checked = storedValue === 1;
+	}
+
+	for (let i = 1; i <= 3; i++) {
+	  let selectType = document.getElementById(`clock-type${i}`);
+	  selectType.value = JSON.parse(localStorage.getItem(`at${i}`));
+
+	  let hour = JSON.parse(localStorage.getItem(`ah${i}`));
+	  let minute = JSON.parse(localStorage.getItem(`am${i}`));
+	  let givenTime = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0'   )}`;
+	  let inputElement = document.getElementById(`hour-time${i}`);
+	  inputElement.value = givenTime;
+	}
+
+	var enable0 = 0;
+    var enable1 = 0;
+    var enable2 = 0;
+    var enable3 = 0;
+
+     function sendGetRequest(index) {
+/*      let checkbox = document.getElementById("enable" + index);
+      if (checkbox.checked) {
+        console.log("复选框被勾选");
+        this["enable" + index] = 1;
+      } else {
+        console.log("复选框未被勾选");
+        this["enable" + index] = 0;
+      }*/
+    } 
+    function OnSave(index) {
+      var clockType = document.getElementById("clock-type" + index).value;
+      var hourTime = document.getElementById("hour-time" + index).value;
+	  let checkbox123 = document.getElementById("enable" + index);
+      if (checkbox123.checked) {
+        this["enable" + index] = 1;
+      } else {
+        this["enable" + index] = 0;
+      }
+
+      // 获取所选的小时和分钟
+      const selectedHour = hourTime.split(":")[0];
+      const selectedMinutes = hourTime.split(":")[1];
+
+      console.log('Enable' + index + '=' + this["enable" + index] + '&Type' + index + '=' + clockType + '&Hour' + index + '=' + selectedHour + '&Minute' + index + '=' + selectedMinutes);
+      let _sendData = "/SetAlarmClock?";
+      if (this["enable" + index] != 0 && hourTime != "") {
+        _sendData += 'Enable' + index + '=' + this["enable" + index] + '&Type' + index + '=' + clockType + '&Hour' + index + '=' + selectedHour + '&Minute' + index + '=' + selectedMinutes;
+      }
+      console.log("[" + _sendData + "]");
+      if (_sendData != "/SetAlarmClock?") {
+        sendData(_sendData,1);
+      } else {
+        message("error",2000);
+      }
+    }
+    function OnDelete(index) {
+      let _sendData = "/SetAlarmClockDel?Value=" + index;
+	  console.log("[" + _sendData + "]");
+      sendData(_sendData,1);
+    }
+    function OnStop() {
+      let _sendData = "/SetAlarmClockStop";
+	  console.log("[" + _sendData + "]");
+      sendData(_sendData,0);
+    }
+    function OnShowIcon() {
+      if (checkbox0.checked) {
+        enable0 = 1;
+      } else {
+        enable0 = 0;
+      }
+      let _sendData = "/SetAlarmClockIcon?Value=" + enable0;
+	  console.log("[" + _sendData + "]");
+      sendData(_sendData,1);
+    }
+</script>
+
+</html>

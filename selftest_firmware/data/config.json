@@ -1,0 +1,16 @@
+{
+  "name": "sd2-small-tv-selftest",
+  "display": "ST7789 240x240",
+  "pins": {
+    "tft_sck": 14,
+    "tft_mosi": 13,
+    "tft_cs": 15,
+    "tft_dc": 0,
+    "tft_rst": 2,
+    "backlight": 5,
+    "button_active_low": 4,
+    "ws2812": 12,
+    "buzzer": 16
+  }
+}
+

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/index.css">
+	<link href="https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.css" rel="stylesheet">
+	<script src="/js/cropperjs-gif-all.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.14/vue.min.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+    }
+    .radio-group {
+      display: flex;
+      align-items: center;
+    }
+    .radio-group label {
+      margin-right: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+	.backButton {
+	  position: absolute;
+	  left: 10px;
+	}
+  </style>
+</head>
+  <body>
+<div class="container">
+  <form>
+    <div class="radio-group">
+      <input type="radio" id="option1" name="options" value="option1">
+      <label for="option1">直接上传</label>
+      <input type="radio" id="option2" name="options" value="option2" checked>
+      <label for="option2">编辑后上传(有编辑功能)</label>
+    </div>
+  </form>
+</div>
+<div id="div1" class="hidden">
+  <center>
+	<div style="position: relative;">
+	  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+      <div class="title">动图管理</div>
+	</div>
+    <!-- <h1>动图管理</h1> -->
+    <p>点击按钮选择GIF文件上传</p>
+    <form id="gif-form">
+      <input id="gif-file-input" type="file" name="data" accept=".gif">
+      <input class="button" type="submit" value="上传" disabled>
+    </form>
+	<div id="image-info" style="display:none;">
+    <img id="gif-image" src="" alt="Example GIF">
+    <div>
+      文件大小：<span id="file-size"></span>
+    </div>
+    <div>
+      图片宽度：<span id="image-width"></span>
+    </div>
+    <div>
+      图片高度：<span id="image-height"></span>
+    </div>
+	</div>
+  </center>
+  <div class="sub-title" style="color:red;margin:20px;">
+    直接上传的动图要求：</br>不大于100KB；</br>帧数不大于30帧；</br>宽、高均不大于80px；</br>帧间delay不相等，有可能无法正常显示；</br>如果不符合要求可以在“编辑后上传”选项页面中上传；也可以到业余专业网站处理：<a href="https://ezgif.com/">https://ezgif.com/</a>
+  </div>
+</div>
+<div id="div2" class="">
+    <div id="app" style="opacity: 1;">
+      <!-- <div class="title">上传GIF动画</div> -->
+	<div style="position: relative;">
+	  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+      <div class="title">动图管理</div>
+	</div>
+
+      <div class="sub-title">当前时钟的动画(上传自动覆盖)</div>
+      <div id="previewDiv">
+		<img id="previewGif" src="img/gif/clock.gif">
+        <img class="previewImage">
+		<!-- <div id="refresh">请刷新页面</div> -->
+	  </div>
+      <div id="error" class="sub-title" style="color:red;display: none;">发生错误，请刷新页面重试！</div>
+      <div id="uploadLayout" class="upload-layout">
+        <div class="upload-box" @click="clickUpload">
+          <img src="img/image.svg">
+          <div class="">拖动或选择文件上传</div>
+          <input id="fileInput" style="display: none;" type="file" accept="image/gif" @change="fileClick"></div>
+      </div>
+      <div id="edit-layout" class="edit-layout" style="display: none;">
+        <div class="edit-header">
+          <div class="file-tips">上传时请不要关闭网页！</div>
+		  <input type="button" value="上传" @click="uploadFile">
+          <img src="img/error.svg" class="op-icon" @click="removeUploadFile"></div>
+        <img id="edit-image">
+        <div class="control-tips">鼠标滚轮或双指可以缩放图片大小</div></div>
+        <button class="submit-button" onclick="deletegif()">复位GIF动图为太空人</button>
+    </div>
+      <div class="sub-title" style="color:red;margin:20px;">注：</br>经过本页面上传的动图自动处理为符合要求的动图；</br>但如果本页面裁剪过的gif图片上传后有问题，请到业余专业网站<a href="https://ezgif.com/">https://ezgif.com/</a>处理后，再在“直接上传”选项页面中上传。</br>
+	  </div>
+</div>
+      <div id="div3" class="sub-title" style="color:red;margin:20px;">请注意：</br>1.本项功能属于额外添加的<u>实验功能</u>，<u>不作为退换货理由！</u></br>2.上传图片时小电视可能在左上角出现文字，这是由于上传图片过程中会占用大量内存导致，待上传结束，切换一下页面即可；</br>3.有些gif图片因为图片的问题，上传后可能会导致不断重启，解决方法是在小电视重启时，在蓝块卡住瞬间按住按键，就会进入菜单页，再在本页中点击初始化为太空人即可；</br>如果小电视无实体按键，您又有更换动图的需求，那就请不要设置“开机界面”是带动图的时钟界面；
+	  </div>
+	
+    <script src="/js/main2.js"></script>
+<script>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+	var div_flag = 0;
+  ///////////////////////////////////////////////////
+  const option1 = document.getElementById('option1');
+  const option2 = document.getElementById('option2');
+  const div1 = document.getElementById('div1');
+  const div2 = document.getElementById('div2');
+  const div3 = document.getElementById('div3');
+
+  option1.addEventListener('change', function() {
+    if (option1.checked) {
+      div1.classList.remove('hidden');
+      div2.classList.add('hidden');
+      div3.classList.remove('hidden');
+	  div_flag = 1;
+    }
+  });
+
+  option2.addEventListener('change', function() {
+    if (option2.checked) {
+      div1.classList.add('hidden');
+      div2.classList.remove('hidden');
+      div3.classList.remove('hidden');
+	  div_flag = 2;
+    }
+  });
+  ///////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
+	//if(div_flag==1)
+	{
+	const submitButton = document.querySelector('.button');
+	var flag=true;
+	
+    // 获取文件输入元素
+    const fileInputElement = document.getElementById('gif-file-input');
+
+    // 获取图像元素
+    const imageElement = document.getElementById('gif-image');
+
+    // 获取显示大小的元素
+    const fileSizeElement = document.getElementById('file-size');
+    const imageWidthElement = document.getElementById('image-width');
+    const imageHeightElement = document.getElementById('image-height');
+	
+  // 监听表单的 submit 事件
+  const gifForm = document.getElementById('gif-form');
+  gifForm.addEventListener('submit', function(event) {
+  event.preventDefault(); // 阻止表单的默认行为，即跳转页面
+  
+  const formData = new FormData(gifForm); // 创建FormData对象并传入表单元素
+
+  const xhr = new XMLHttpRequest(); // 创建XMLHttpRequest对象
+
+  xhr.open('POST', '/SetFileUpload?Type=gif', true); // 设置请求方法、URL和异步标志
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) { // 当请求完成时
+      if (xhr.status === 200) { // 请求成功
+        console.log(xhr.responseText); // 打印服务器返回的响应数据
+      } else {
+        console.error('请求失败');
+      }
+    }
+  };
+
+  xhr.send(formData); // 发送FormData对象
+
+});
+
+    // 监听文件输入框的 change 事件
+    fileInputElement.addEventListener('change', function() {
+		imageElement.src = '';
+		flag=true;
+	
+      // 获取所选文件
+      const file = this.files[0];
+
+      // 创建一个 Image 对象
+      const i
+   mg = new Image();
+
+      // 读取文件内容完成后执行回调函数
+      img.onload = function() {
+        // 将文件内容设置为图像元素的 src 属性
+        imageElement.src = img.src;
+
+        // 获取图片的字节数
+        const imageSize = file.size;
+
+        // 获取图片的宽度和高度
+        const imageWidth = img.width;
+        const imageHeight = img.height;
+
+        // 在页面中显示图片大小、宽度和高度
+		let isize=(imageSize / 1024).toFixed(1) + " KB";
+		if((imageSize / 1024).toFixed(1)>100)
+		{
+			flag=false;
+			isize = isize + "(图片大小不能超过100KB！)";
+		}
+        fileSizeElement.textContent = isize;
+		let iwidth=imageWidth + " 像素";
+		if(imageWidth>80)
+		{
+			flag=false;
+			iwidth=iwidth+"(图片宽度不能超过80像素！)";
+		}
+        imageWidthElement.textContent = iwidth;
+		let iheight=imageHeight + " 像素";
+		if(imageHeight>80)
+		{
+			flag=false;
+			iheight=iheight+"(图片高度不能超过80像素！)";
+		}
+        imageHeightElement.textContent = iheight;
+
+		const imageinfo = document.getElementById("image-info");
+		imageinfo.style.display = "block";
+		  // 更新按钮状态
+		  updateButtonStatus(flag);
+		  //console.log(flag);
+      };
+
+      // 读取文件内容
+      img.src = URL.createObjectURL(file);
+	  
+    });
+	
+	// 更新提交按钮状态的函数
+	function updateButtonStatus(flag) {
+	  submitButton.disabled = !flag;
+	}
+	}
+  ///////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
+	//if(div_flag==2)
+	{
+		const previewImage = document.getElementById("previewGif");
+		previewImage.onerror = function() {
+			const previewImage = document.getElementById("previewDiv");
+			previewImage.style.display = "none";
+		};
+/* 		const refreshDiv = document.getElementById("refresh");
+		previewImage.onload = function() {
+			refreshDiv.style.display = "none";
+		}; */
+		function deletegif() {
+		  const _sendData = '/SetDeleteGif?ImageName=clock.gif';
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", _sendData, true);
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState == 4 && xhr.status == 200) {
+						console.log("ok");
+					}
+					else console.log("error");
+				}
+				xhr.send();
+		location.reload();
+		}
+	}
+  ///////////////////////////////////////////////////
+</script>
+  </body>
+</html>

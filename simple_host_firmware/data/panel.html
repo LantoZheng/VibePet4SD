@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VibePet4SD Panel</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0a0a1a;color:#e0e0e0;min-height:100vh}
+.header{background:linear-gradient(135deg,#1a1a3e,#0d0d2b);padding:16px;text-align:center;border-bottom:2px solid #2a2a5e}
+.header h1{font-size:1.3em;background:linear-gradient(90deg,#5cf,#a5f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;padding:12px;max-width:900px;margin:0 auto}
+.card{background:#14142e;border-radius:12px;padding:16px;border:1px solid #2a2a4e}
+.card h2{font-size:1em;margin-bottom:12px;color:#8af}
+.signal-bar{display:flex;gap:8px;flex-wrap:wrap}
+.signal-btn{flex:1;min-width:60px;padding:12px 8px;border:none;border-radius:10px;font-size:.85em;font-weight:600;cursor:pointer;transition:.2s;color:#fff}
+.signal-btn:hover{filter:brightness(1.2);transform:translateY(-1px)}
+.signal-btn.active{box-shadow:0 0 16px currentColor}
+.btn-idle{background:#1a6b1a}.btn-idle.active{box-shadow:0 0 20px #0f0}
+.btn-working{background:#1a4a6b}.btn-working.active{box-shadow:0 0 20px #0af}
+.btn-attention{background:#6b5a1a}.btn-attention.active{box-shadow:0 0 20px #fa0}
+.btn-blocked{background:#6b1a1a}.btn-blocked.active{box-shadow:0 0 20px #f33}
+.pet-controls{display:flex;gap:8px;align-items:center}
+.pet-select{flex:1;padding:8px;border-radius:8px;background:#1a1a3e;color:#e0e0e0;border:1px solid #3a3a6e;font-size:.9em}
+.btn{padding:8px 16px;border:none;border-radius:8px;font-size:.85em;font-weight:600;cursor:pointer;transition:.2s}
+.btn-primary{background:#3355cc;color:#fff}
+.btn-danger{background:#cc3344;color:#fff}
+.btn-ghost{background:transparent;border:1px solid #4a4a8e;color:#aaf}
+.btn-sm{padding:6px 12px;font-size:.8em}
+.row{display:flex;align-items:center;gap:8px;margin:6px 0}
+.slider{flex:1;accent-color:#58f}
+.status-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.dot-green{background:#0f0;box-shadow:0 0 8px #0f0}
+.dot-blue{background:#0af;box-shadow:0 0 8px #0af}
+.dot-yellow{background:#fa0;box-shadow:0 0 8px #fa0}
+.dot-red{background:#f33;box-shadow:0 0 8px #f33}
+.mono{font-family:monospace;font-size:.85em;color:#8af}
+.toast{position:fixed;bottom:16px;right:16px;padding:10px 18px;border-radius:8px;font-size:.85em;animation:slideUp .3s ease;z-index:999}
+.toast-ok{background:#1a4a1a;border:1px solid #2a6a2a}
+.toast-err{background:#4a1a1a;border:1px solid #6a2a2a}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🖥️ VibePet4SD</h1>
+  <div class="mono" id="devInfo">AP: SD2-TV-xxxx | IP: 192.168.4.1</div>
+</div>
+
+<div class="cards">
+
+  <!-- Signal Light -->
+  <div class="card">
+    <h2>💡 Signal Light</h2>
+    <div class="signal-bar">
+      <button class="signal-btn btn-idle" onclick="setSignal('idle')">🟢 Idle</button>
+      <button class="signal-btn btn-working" onclick="setSignal('working')">🔵 Working</button>
+      <button class="signal-btn btn-attention" onclick="setSignal('attention')">🟠 Attention</button>
+      <button class="signal-btn btn-blocked" onclick="setSignal('blocked')">🔴 Blocked</button>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <span>Status:</span>
+      <span class="status-dot dot-green" id="sigDot"></span>
+      <span class="mono" id="sigLabel">idle</span>
+    </div>
+  </div>
+
+  <!-- Pet Controls -->
+  <div class="card">
+    <h2>🐾 Pet</h2>
+    <div class="pet-controls">
+      <select class="pet-select" id="petList" onchange="selectPet()"><option>Loading...</option></select>
+      <button class="btn btn-primary btn-sm" onclick="cmd('PET_SHOW')">Show</button>
+      <button class="btn btn-ghost btn-sm" onclick="cmd('PET_HIDE')">Hide</button>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div class="card">
+    <h2>⚙️ Settings</h2>
+    <div class="row">
+      <span>Brightness</span>
+      <input type="range" class="slider" min="10" max="100" value="85" id="brightSlider" onchange="setBright(this.value)">
+      <span class="mono" id="brightVal">85%</span>
+    </div>
+    <div class="row">
+      <span>WiFi STA</span>
+      <input placeholder="SSID" id="wifiSsid" style="width:80px;padding:4px;border-radius:4px;border:1px solid #4a4a8e;background:#1a1a3e;color:#e0e0e0">
+      <input placeholder="Password" type="password" id="wifiPass" style="width:80px;padding:4px;border-radius:4px;border:1px solid #4a4a8e;background:#1a1a3e;color:#e0e0e0">
+      <button class="btn btn-primary btn-sm" onclick="setWiFi()">Connect</button>
+    </div>
+  </div>
+
+  <!-- System -->
+  <div class="card">
+    <h2>📊 System</h2>
+    <div class="row"><span>Heap:</span><span class="mono" id="heapVal">---</span></div>
+    <div class="row"><span>Uptime:</span><span class="mono" id="uptimeVal">---</span></div>
+    <div class="row"><span>Pets:</span><span class="mono" id="petCount">---</span></div>
+    <button class="btn btn-danger btn-sm" onclick="cmd('REBOOT')">🔄 Reboot</button>
+  </div>
+
+</div>
+
+<script>
+const API = '';
+
+async function cmd(c) {
+  try {
+    const r = await fetch(API + '/cmd?c=' + encodeURIComponent(c));
+    const t = await r.text();
+    toast(t.trim().substring(0,60), t.includes('OK')?'ok':'err');
+    return t;
+  } catch(e) {
+    toast('Connection error','err');
+    return 'ERR';
+  }
+}
+
+function toast(msg, type='ok') {
+  const el = document.createElement('div');
+  el.className = 'toast toast-' + type;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2500);
+}
+
+async function setSignal(mode) {
+  await cmd('SIGNAL ' + mode);
+  updateStatus();
+  document.querySelectorAll('.signal-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.btn-'+mode)?.classList.add('active');
+}
+
+async function updateStatus() {
+  try {
+    const r = await fetch(API + '/status.json');
+    const s = await r.json();
+    document.getElementById('sigLabel').textContent = s.signal||'?';
+    const dot = document.getElementById('sigDot');
+    dot.className = 'status-dot dot-' + ({idle:'green',working:'blue',attention:'yellow',blocked:'red'}[s.signal]||'green');
+    document.getElementById('heapVal').textContent = (s.heap||0) + ' B';
+    document.getElementById('uptimeVal').textContent = (s.uptime||0) + ' s';
+    document.getElementById('devInfo').textContent = 'AP: '+(s.ap||'?')+' | IP: '+(s.ip||'?');
+    document.querySelectorAll('.signal-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.btn-'+(s.signal||'idle'))?.classList.add('active');
+  } catch(e) {}
+}
+
+async function setBright(v) {
+  document.getElementById('brightVal').textContent = v + '%';
+  await cmd('BRIGHT ' + v);
+}
+
+async function loadPets() {
+  const r = await cmd('PET_LIST');
+  const m = r.match(/pets:(.*)/);
+  const list = m ? m[1].split(',') : [];
+  const sel = document.getElementById('petList');
+  sel.innerHTML = '<option value="">-- Built-in --</option>';
+  list.filter(p=>p).forEach(p => sel.innerHTML += '<option value="'+p+'">'+p+'</option>');
+  document.getElementById('petCount').textContent = list.length;
+}
+
+async function selectPet() {
+  const slug = document.getElementById('petList').value;
+  if (slug) await cmd('PET_SELECT ' + slug);
+}
+
+async function setWiFi() {
+  const ssid = document.getElementById('wifiSsid').value.trim();
+  const pass = document.getElementById('wifiPass').value.trim();
+  if (ssid && pass) await cmd('WIFI ' + ssid + ' ' + pass);
+}
+
+setInterval(updateStatus, 3000);
+updateStatus();
+loadPets();
+</script>
+</body>
+</html>

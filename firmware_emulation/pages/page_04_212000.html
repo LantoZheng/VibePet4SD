@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="/js/zk.js"></script>
+    <style>
+	.text-center {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}.text-container {
+		margin-bottom: 0px;
+		font-size: 30px;
+	}.slider-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}.slider-color {
+		width: 300px;
+		height: 20px;
+		background: linear-gradient(to right, red, yellow, green, cyan, blue, magenta, red);
+		border-radius: 5px;
+		appearance: none;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		overflow-x: visible;
+	}.slider-color::-webkit-slider-thumb {
+		appearance: none;
+		width: 30px;
+		height: 30px;
+		background: #cccccc;
+		border-radius: 50% ;
+		cursor: pointer;
+	}
+	.time-div{
+		height:60px;
+		padding:30px 0 0px 0;
+	}
+	</style></head>
+  
+  <body>
+    <div class="block">
+      <div class="card" id="text0" style="background-color:#000000;color:#ffffff" >
+	  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+	  颜色设置</div>
+      <div class="card">
+        <div class="text-center text-container">
+          <h1 id="text1" class="time-div" style="color:#ff9900;">
+            <span id="hour"></span>&nbsp;</h1>
+          <h1 id="text2" class="time-div" style="color:#00ffff;">
+            <span id="minute"></span>&nbsp;</h1>
+          <h1 id="text3" class="time-div" style="color:#ff9900;">
+            <span id="second"></span>
+          </h1>
+        </div>
+      </div>
+      <div class="card">
+        <div class="slider-container">
+          <div>
+            <span>其它颜色：</span>
+            <div class="text-center">
+              <input type="range" class="slider-color" id="slider0" min="0" max="300" value="300"></div>
+          </div>
+          <div>
+            <span>小时颜色：</span>
+            <div class="text-center">
+              <input type="range" class="slider-color" id="slider1" min="0" max="300" value="30"></div>
+          </div>
+          <div>
+            <span>分钟颜色：</span>
+            <div class="text-center">
+              <input type="range" class="slider-color" id="slider2" min="0" max="300" value="150"></div>
+          </div>
+          <div>
+            <span>秒钟颜色：</span>
+            <div class="text-center">
+              <input type="range" class="slider-color" id="slider3" min="0" max="300" value="30"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="btn-group">
+          <button class="btn-preview" onclick="OnPreview()">预览</button>
+          <button class="btn-save" onclick="OnSave()">保存</button></div>
+      </div>
+    </div>
+    <div id="toast-container"></div>
+    <script>
+	
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	const sliders = document.querySelectorAll('.slider-color');
+      const texts = document.querySelectorAll('[id^="text"]');
+      var colorHour = 0xff9900;
+      var colorMin = 0x00ffff;
+      var colorSec = 0xff9900;
+      var colorOther = 0xffffff;
+      sliders.forEach((slider, index) =>{
+        slider.addEventListener('input', () =>{
+          const value = slider.value;
+          console.log("value=" + value);
+          const rgb = getColorComponents(value);
+          console.log("r=" + rgb.r + " g=" + rgb.g + " b=" + rgb.b);
+
+          let hexcolor = rgbToHex(rgb.r, rgb.g, rgb.b);
+          if (value == 300) {
+            hexcolor = rgbToHex(255, 255, 255);
+          }
+          console.log("hexcolor=" + hexcolor);
+          texts[index].style.color = '#' + hexcolor;
+          let color = parseInt(hexcolor, 16);
+          console.log("color=" + color);
+          if (index == 1) colorHour = color;
+          else if (index == 2) colorMin = color;
+          else if (index == 3) colorSec = color;
+          else if (index == 0) colorOther = color;
+        });
+      });
+
+      function OnPreview() {
+        senddata(1);
+      }
+
+      function OnSave() {
+        senddata(2);
+      }
+
+      function senddata(index) {
+        let _sendData = '/SetColor?Hour=' + colorHour + '&Minute=' + colorMin + '&Second=' + colorSec + '&Other=' + colorOther;
+        if (index == 2){
+			_sendData += "&Save";
+			console.log(_sendData);
+			sendData(_sendData,1);
+		}
+        else if (index == 1){
+			console.log(_sendData);
+			sendData(_sendData,0);
+		}
+      }
+
+      function getColorComponents(value) {
+        const gradientStops = ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'red'];
+        const index = Math.floor((value / 300) * (gradientStops.length - 1));
+        const color1 = gradientStops[index];
+        const color2 = gradientStops[index + 1];
+        const ratio = (value % (300 / (gradientStops.length - 1))) / (300 / (gradientStops.length - 1));
+        const rgb1 = getRGBComponents(color1);
+        const rgb2 = getRGBComponents(color2);
+        const r = Math.round(rgb1.r + (rgb2.r - rgb1.r) * ratio);
+        const g = Math.round(rgb1.g + (rgb2.g - rgb1.g) * ratio);
+        const b = Math.round(rgb1.b + (rgb2.b - rgb1.b) * ratio);
+        return { r, g, b };
+      }
+
+      function getRGBComponents(color) {
+        const div = document.createElement('div');
+        div.style.backgroundColor = color;
+        document.body.appendChild(div);
+        const computedStyle = window.getComputedStyle(div);
+        const rgbColor = computedStyle.backgroundColor;
+        const rgbValues = rgbColor.match(/\d+/g);
+        document.body.removeChild(div);
+        const r = parseInt(rgbValues[0]);
+        const g = parseInt(rgbValues[1]);
+        const b = parseInt(rgbValues[2]);
+        return { r, g, b };
+      }
+
+      function rgbToHex(r, g, b) {
+        const componentToHex = (c) =>{
+          const hex = c.toString(16);
+          return hex.length === 1 ? '0' + hex: hex;
+        };
+        return componentToHex(r) + componentToHex(g) + componentToHex(b);
+      }
+
+      function updateCurrentTime() {
+        const now = new Date();
+        let hour = now.getHours();
+        let minute = now.getMinutes();
+        let second = now.getSeconds();
+
+        hour = hour.toString().padStart(2, '0');
+        minute = minute.toString().padStart(2, '0');
+        second = second.toString().padStart(2, '0');
+
+        document.getElementById('hour').textContent = hour;
+        document.getElementById('minute').textContent = minute;
+        document.getElementById('second').textContent = second;
+        setTimeout(updateCurrentTime, 1000);
+      }
+
+      updateCurrentTime();</script>
+  </body>
+
+</html>

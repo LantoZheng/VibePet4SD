@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="/js/zk.js"></script>
+    <style></style>
+  </head>
+  
+  <body>
+    <div class="block">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>屏幕方向</div>
+	  </div>
+      <div class="card">
+        <div class="rotate-screen">
+          <div class="title">屏幕旋转方向（USB口朝向）</div>
+          <div class="radio-group">
+            <input type="radio" name="rotate" id="rotate-0" value="0">
+            <label for="rotate-0">朝下</label>
+            <input type="radio" name="rotate" id="rotate-1" value="1">
+            <label for="rotate-1">朝左</label>
+            <input type="radio" name="rotate" id="rotate-2" value="2">
+            <label for="rotate-2">朝上</label>
+            <input type="radio" name="rotate" id="rotate-3" value="3">
+            <label for="rotate-3">朝右</label>
+            <input type="radio" name="rotate" id="rotate-4" value="4">
+            <label for="rotate-4">镜像</label>
+		  </div>
+        </div>
+		<div>保存后重启生效</div>
+      </div>
+      <div class="card">
+        <div class="save-btn">
+          <button onclick="OnSave()">保存</button></div>
+      </div>
+    </div>
+    <div id="toast-container"></div>
+  </body>
+<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	let selectedValue = JSON.parse(localStorage.getItem('ro'));
+	var radioElement = document.getElementById('rotate-' + selectedValue);
+	radioElement.checked = true;
+
+    function OnSave() {
+        const optionValue = document.querySelector('input[name="rotate"]:checked').value;
+		const _sendData = '/SetScreenRotation?Value='+optionValue+"&Save";
+        console.log(_sendData);
+		sendData(_sendData,1);
+    }
+</script>
+</html>

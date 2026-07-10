@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="/js/zk.js"></script>
+    <style></style>
+  </head>
+  
+  <body>
+    <div class="block">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>时钟样式</div>
+	  </div>
+      <div class="card">
+            <div class="middle">
+              <div>选择样式：</div>
+              <div class="clock-type">
+                <select id="clock-type1">
+                  <option value="0">经典界面字体一</option>
+                  <option value="1">经典界面字体二</option>
+                  <option value="2">经典界面字体三</option>
+                  <option value="3" selected>掌控-智慧蓝</option>
+                  <option value="4">掌控-樱花粉</option>
+                  <option value="5">掌控-多日天气</option>
+                  <option value="6">表盘时钟一</option>
+                  <option value="7">表盘时钟二</option>
+                  <option value="8">掌控-简约液晶</option>
+                  <option value="9">掌控-EP one</option>
+                  <option value="10">掌控-simple one</option>
+				</select>
+              </div>
+            </div>
+			<div>
+				这里保存的样式，只有在“开机页面”选项中选择“天气时钟”才会生效。
+			</div>
+      </div>
+      <div class="card">
+        <div class="save-btn">
+          <button onclick="OnSave()">保存</button></div>
+      </div>
+    </div>
+    <div id="toast-container"></div>
+  </body>
+
+<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	let select = document.getElementById('clock-type1');
+	select.value = JSON.parse(localStorage.getItem('st'));
+	// 调用函数来根据十六进制值控制下拉框选项的显示
+	let ten=JSON.parse(localStorage.getItem('ten'));
+	console.log(ten.toString(16));
+	controlDropdownOptions(ten);  // 传入十六进制值字符串
+	var selectedValue=0;
+	select.addEventListener('change', function() {
+		const selectedOption = select.options[select.selectedIndex];
+		selectedValue = selectedOption.value;
+        const _sendData = '/SetTimeStyle?Value='+selectedValue;
+		console.log(_sendData);
+		sendData(_sendData,0);
+	});
+    function OnSave() {
+		const _sendData = '/SetTimeStyle?Value='+selectedValue+'&Save';
+        console.log(_sendData);
+		sendData(_sendData,1);
+    }
+	function controlDropdownOptions(hexValue) {
+	  let binaryString = hexValue.toString(2);//parseInt(hexValue, 16).toString(2); // 将十六进制转换为二进制字符串
+	  binaryString = binaryString.padStart(11, '0'); // 左侧补零，使其长度为 11
+	  console.log(binaryString);
+	  let options = document.getElementById("clock-type1").getElementsByTagName("option");
+	  for (let i = 0; i < options.length; i++) {
+		if (i < binaryString.length && binaryString.charAt(binaryString.length - 1 - i) === '1') {
+		  options[i].style.display = "block";  // 显示当前选项
+		} else {
+		  options[i].style.display = "none";   // 隐藏其它选项
+		}
+	  }
+	}
+</script>
+</html>

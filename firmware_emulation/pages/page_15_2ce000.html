@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+</head>
+
+<body>
+    <div class="block" style="height: auto;">
+      <div class="card" style="align-items: normal;flex-direction: row;">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>设备信息</div>
+	  </div>
+		<div class="card" style="line-height: 1.2em;">
+			<div id="dataContainer"></div>
+		</div>
+	</div>
+</body>
+<!-- <script src="/js/zk.js"></script> -->
+<script>
+// 发起 GET 请求获取数据
+fetch('/GetDeviceInfo')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json(); // 将响应数据解析为 JSON
+  })
+  .then(data => {
+    // 在这里处理获取到的数据
+    displayDataOnPage(data);
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+  });
+
+// 将获取到的数据显示在网页上的函数
+function displayDataOnPage(jsonData) {
+var dataContainer = document.getElementById('dataContainer');
+// 定义键的映射关系
+var keyMapping = {
+		"id": "小电视ID",
+		"v": "固件版本",
+		"sd": "WiFi名称",
+		"sp": "开始页面",
+		"st": "时钟样式",
+		"hc": "小时颜色",
+		"mc": "分钟颜色",
+		"sc": "秒钟颜色",
+		"oc": "其它颜色",
+		"bt": "屏幕亮度",
+		"pe": "定时亮度",
+		"pb": "定时数值",
+		"pbs": "定时开始",
+		"pbe": "定时结束",
+		"ro": "屏幕方向",
+		"cc": "城市编码",
+		"cn": "城市名称",
+		"le": "彩灯使能",
+		"ls": "彩灯样式",
+		"lb": "彩灯亮度",
+		"lc": "彩灯颜色",
+		"tz": "时间时区",
+		"NTP": "时间服务",
+		"xc": "颜色取反",
+		"xb": "亮度取反",
+		"ai": "闹钟图标",
+		"ae1": "闹钟1使能",
+		"at1": "闹钟1样式",
+		//"ah1": "闹钟1小时",
+		//"am1": "闹钟1分钟",
+		"ae2": "闹钟2使能",
+		"at2": "闹钟2样式",
+		//"ah2": "闹钟2小时",
+		//"am2": "闹钟2分钟",
+		"ae3": "闹钟3使能",
+		"at3": "闹钟3样式",
+		//"ah3": "闹钟3小时",
+		//"am3": "闹钟3分钟"
+		//"awc": "WiFi关闭",
+		//"alc": "屏幕关闭"
+};
+
+// 创建新的 JSON 对象，按照映射关系修改键名称
+var newJsonData = {};
+for (var key in jsonData) {
+	if (key === "ah1" && jsonData["am1"]) {
+	  let hour = jsonData["ah1"];
+	  let minute = jsonData["am1"];
+      var formattedHour = hour < 10 ? "0" + hour : hour;
+      var formattedMinute = minute < 10 ? "0" + minute : minute;
+      var timeString = formattedHour + ":" + formattedMinute;
+	  newJsonData["闹钟1时间"] = timeString;// 根据 "ah1" 和 "am1" 创建新的时间值
+    } 
+	else if (key === "ah2" && jsonData["am2"]) {
+	  let hour = jsonData["ah2"];
+	  let minute = jsonData["am2"];
+      var formattedHour = hour < 10 ? "0" + hour : hour;
+      var formattedMinute = minute < 10 ? "0" + minute : minute;
+      var timeString = formattedHour + ":" + formattedMinute;
+	  newJsonData["闹钟2时间"] = timeString;// 根据 "ah1" 和 "am1" 创建新的时间值
+    } 
+	else if (key === "ah3" && jsonData["am3"]) {
+	  let hour = jsonData["ah3"];
+	  let minute = jsonData["am3"];
+      var formattedHour = hour < 10 ? "0" + hour : hour;
+      var formattedMinute = minute < 10 ? "0" + minute : minute;
+      var timeString = formattedHour + ":" + formattedMinute;
+	  newJsonData["闹钟3时间"] = timeString;// 根据 "ah1" 和 "am1" 创建新的时间值
+    } 
+	else if (key === "am1" || key === "am2"  || key === "am3" ) {}
+	else if (keyMapping[key]) {
+        newJsonData[keyMapping[key]] = jsonData[key];
+    } else {
+        newJsonData[key] = jsonData[key];
+    }
+}
+
+// 构建要显示的 HTML 内容
+var displayContent = '<ul>';
+for (var key in newJsonData) {
+    displayContent += '<li style="overflow: hidden;">' + key + ': ' + newJsonData[key] + '</li>';
+}
+displayContent += '</ul>';
+
+// 将 HTML 内容更新到页面上
+document.getElementById('dataContainer').innerHTML = displayContent;
+}
+
+</script>
+</html>

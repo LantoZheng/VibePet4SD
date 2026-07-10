@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <!-- <link rel="stylesheet" href="css/icon.css"> -->
+    <!-- <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_3999075_oo8woxt24g.css"> -->
+    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_3999075_lqmf7fj2vp.css">
+    <!-- <script src="/js/zk.js"></script> -->
+    <style type="text/css">
+		html,body {
+			color:#222;
+			font-family:Microsoft YaHei,Helvitica,Verdana,Tohoma,Arial,san-serif;
+			margin:0;
+			padding:0;
+			text-decoration:none;
+		}
+		img {
+			border:0;
+		}
+		ul {
+			list-style:none outside none;
+			margin:0;
+			padding:0;
+		}
+		body {
+			}body .mainmenu:after {
+			clear:both;
+			content:" ";
+			display:block;
+		}
+		body .mainmenu li {
+			float:left;
+			margin-left:2.5%;
+			margin-top:2.5%;
+			width:30%;
+			border-radius:5px;
+			overflow:hidden;
+		}
+		body .mainmenu li a {
+			display:block;
+			color:#FFF;
+			text-align:center
+		}
+		body .mainmenu li a b {
+			display:block;
+			height:100px;
+		}
+		body .mainmenu li a img {
+			margin:20px auto 20px;
+			width:60px;
+			height:60px;
+		}
+		body .mainmenu li a span {
+			display:block;
+			height:30px;
+			line-height:30px;
+			background-color:#FFF;
+			color:#999;
+			font-size:14px;
+		}
+		body .mainmenu li {
+			background-color:#14c760
+		}
+		.iconfont {
+		  font-family: "iconfont" !important;
+		  font-size: 50px;
+		  font-style: normal;
+		  -webkit-font-smoothing: antialiased;
+		  -moz-osx-font-smoothing: grayscale;
+		  margin:5px;
+		  padding:8px 5px 5px 5px;
+		  overflow: hidden;
+		}
+		.card {
+		  flex-direction:row;
+		}
+	</style>
+	</head>
+  
+  <body>
+  <div class="block">
+<!-- 	<div class="card" style="position: relative;height:28px;">
+		<div style="position: absolute;left: 50%;transform: translateX(-50%);">[掌控]小电视设置</div>
+		<button id="fullScreenButton" onclick="toggleFullScreen()" style="position: absolute;right: 10px;width:66px;background-color:#666">全屏</button>
+	</div> -->
+	<div class="card" style="height:50px;">
+		<div class="save-btn">
+		  <button style="width:60px;" onclick="OnDoubleClick()">&lt;&nbsp;双击</button>
+		  <button style="width:60px;" onclick="OnClick()">单击&nbsp;&gt;</button>
+		  <button style="width:60px;" onclick="OnLongClick()">长按&nbsp;√</button>
+		  <button style="width:60px;" onclick="OnRestart()">重启&nbsp;⊙</button>
+		</div>
+	</div>
+	<div class="card" style="overflow: auto;">
+    <ul class="mainmenu">
+      <li>
+        <a href="setwifi.html">
+          <div class="iconfont icon-Wi-Fi"></div>
+          <span>WiFi设置</span></a>
+      </li>
+      <li>
+        <a href="setpage.html">
+          <div class="iconfont icon-yemian"></div>
+          <span>全局设置</span></a>
+      </li>
+      <li>
+        <a href="help.html">
+          <div class="iconfont icon-bangzhu"></div>
+          <span>帮助/升级</span></a>
+      </li>
+      <li>
+        <a href="setcolor.html">
+          <div class="iconfont icon-yanse"></div>
+          <span>颜色设置</span></a>
+      </li>
+      <li>
+        <a href="setbrightness.html">
+          <div class="iconfont icon-liangdu"></div>
+          <span>亮度调节</span></a>
+      </li>
+      <li>
+        <a href="settimestyle.html">
+          <div class="iconfont icon-shijian"></div>
+          <span>时间样式</span></a>
+      </li>
+      <li>
+        <a href="setledlight.html">
+          <div class="iconfont icon-fenweideng"></div>
+          <span>氛围灯</span></a>
+      </li>
+      <li>
+        <a href="setstock.html">
+          <div class="iconfont icon-gupiao"></div>
+          <span>股票设置</span></a>
+      </li>
+      <li>
+        <a href="setcity.html">
+          <div class="iconfont icon-chengshi"></div>
+          <span>城市设置</span></a>
+      </li>
+      <li>
+        <a href="setscreenrotation.html">
+          <div class="iconfont icon-xuanzhuan"></div>
+          <span>屏幕方向</span></a>
+      </li>
+      <li>
+        <a href="setimage.html">
+          <div class="iconfont icon-tupiantianjia"></div>
+          <span>相册管理</span></a>
+      </li>
+      <li>
+        <a href="setgif.html">
+          <div class="iconfont icon-gif"></div>
+          <span>动图管理</span></a>
+      </li>
+      <li>
+        <a href="setalarmclock.html">
+          <div class="iconfont icon-naozhong"></div>
+          <span>闹钟功能</span></a>
+      </li>
+      <li>
+        <a href="settimezone.html">
+          <div class="iconfont icon-shiqu"></div>
+          <span>时区设置</span></a>
+      </li>
+      <!-- <li> -->
+        <!-- <a href="setxscreen.html"> -->
+          <!-- <div class="iconfont icon-pingmu"></div> -->
+          <!-- <span>特殊屏幕</span></a> -->
+      <!-- </li> -->
+      <li>
+        <a href="getmore.html">
+          <div class="iconfont icon-gengduo"></div>
+          <span>更多信息</span></a>
+      </li>
+    </ul>
+	</div>
+	<!-- <div class="card"> -->
+		<!-- <div title="QQ:21182889"><a href='tencent://message/?uin=21182889&Site=zk&Menu=yes'>[掌控]</a>版权所有</div> -->
+	<!-- </div> -->
+	<div id="toast-container"></div>
+  </body>
+  <script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+// 发起 GET 请求获取数据
+fetch('/GetDeviceInfo')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json(); // 将响应数据解析为 JSON
+  })
+  .then(data => {
+    // 在这里处理获取到的数据
+	localStorage.clear();
+	for (var key in data) {
+		localStorage.setItem(key, JSON.stringify(data[key]));
+		//console.log(key + ":" + data[key]);
+	}
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+  });
+	
+    function OnClick() {
+		const _sendData = '/SetPage?Click';
+        console.log(_sendData);
+		httpget(_sendData);
+    }
+    function OnDoubleClick() {
+		const _sendData = '/SetPage?DoubleClick';
+        console.log(_sendData);
+		httpget(_sendData);
+    }
+    function OnLongClick() {
+		const _sendData = '/SetPage?LongClick';
+        console.log(_sendData);
+		httpget(_sendData);
+    }
+	function OnRestart() {
+		const _sendData = '/SetRestart?Restart';
+		//sendData(_sendData);
+		httpget(_sendData);
+	}
+	function httpget(url) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", url, true);
+		xhr.send();
+	}
+    function toggleFullScreen() {
+        var elem = document.documentElement;  // 获取整个文档的元素
+
+        if (!isFullScreen()) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();  // W3C 全屏标准
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();  // Firefox
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();  // Chrome 和 Safari
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();  // IE/Edge
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();  // W3C 全屏标准
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();  // Firefox
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();  // Chrome 和 Safari
+            �   } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();  // IE/Edge
+            }
+        }
+    }
+
+    function isFullScreen() {
+        return (
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+        );
+    }
+
+    document.onfullscreenchange = document.onwebkitfullscreenchange = document.onmozfullscreenchange = function () {
+        var fullScreenButton = document.getElementById('fullScreenButton');
+        if (isFullScreen()) {
+            fullScreenButton.textContent = '退出全屏';
+        } else {
+            fullScreenButton.textContent = '全屏';
+        }
+    };
+  </script>
+</html>

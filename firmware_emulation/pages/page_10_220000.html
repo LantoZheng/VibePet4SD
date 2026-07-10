@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="/js/zk.js"></script>
+    <style></style>
+  </head>
+  
+  <body>
+    <div class="block">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>股票设置</div>
+	  </div>
+      <div class="card">
+        <div class="city">
+          <div class="search-city-code">
+            <div class="result-wrap">
+              <label for="">股票代码：</label>
+              <input type="text" id="stockcode1" style="width:50%">
+			</div>
+            <div class="result-wrap">
+              <label for="">股票代码：</label>
+              <input type="text" id="stockcode2" style="width:50%">
+			</div>
+            <div class="result-wrap">
+              <label for="">股票代码：</label>
+              <input type="text" id="stockcode3" style="width:50%">
+			</div>
+
+              <span>注：</br>股票代码填写例如：sh600519</br>
+			  需在六位股票代码前加字母：</br>
+			  沪证加sh：A股以600、601、603开头，沪市B股以900开头；</br>
+			  深证加sz：A股以000开头，深市B股以200开头，中小板以002开头，创业板股票以300开头；</br>
+			  北证加bj：A股以83开头；</br>
+			  </span>
+          </div>
+        </div>
+      </div>
+	  <div class="card">
+          <div class="save-btn">
+            <button onclick="OnSave()">保存</button></div>
+	  </div>
+    </div>
+    <div id="toast-container"></div>
+</body>
+<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+function OnSave() {
+	const stockcode1 = document.getElementById('stockcode1').value;
+	const stockcode2 = document.getElementById('stockcode2').value;
+	const stockcode3 = document.getElementById('stockcode3').value;
+	let _sendData='/SetStock?';
+	if(stockcode1!="" || stockcode2!="" || stockcode3!="")
+	{
+		_sendData+= 'code1='+stockcode1+'&code2='+stockcode2+'&code3='+stockcode3+'&Save';/**/
+		console.log(_sendData);
+		sendData(_sendData,1);
+	}
+	else message("不能都为空", 2000);
+}
+
+</script>
+
+
+</html>

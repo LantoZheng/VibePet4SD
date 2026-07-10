@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <!-- <link rel="stylesheet" href="css/common.css"> -->
+    <style>
+
+		html,body {
+			min-height:100vh;
+			width:100%;
+
+			/* align-items:center; */
+			background-color:#ffdee9;
+			background-image:linear-gradient(0deg,#ffdee9 0%,#b5fffc 100%);
+			/* overflow:hidden; */
+		}
+		button {
+			width:100px;
+			height:30px;
+			padding-bottom:3px;
+			border:none;
+			border-radius:5px;
+			color:#fff;
+			background-color:#40c160;
+			margin:5px;
+		}
+		button:active {
+			background-color:#339b4c;
+			color:white;
+			/* 其他点击时样式 */
+		}
+		.block {
+			width:100%;
+			display:flex;
+			flex-direction:column;
+			/* justify-content:center; */
+			align-items:center;
+			height:100vh;
+			margin: 10px 0px 10px 0px;
+			line-height: 2em;
+		}
+		.card {
+			width:500px;
+			/* 修改为 90% */
+			max-width:1000px;
+			height:auto;
+			padding:10px;
+			display:flex;
+			justify-content:center;
+			align-items:center;
+			flex-wrap:wrap;
+			background:#ededed;
+			border-radius:5px;
+			box-shadow:0 0 10px rgba(0,0,0,0.2);
+			margin:5px;
+			flex-direction:column;
+			overflow:hidden;
+			position: relative;
+		}
+		@media screen and (max-width:500px) {
+			.card {
+			width:80%;
+		}
+		}
+    </style>
+	</head>
+  
+  <body>
+	<div class="block" style="">
+		<div class="card" style="position: relative;height:28px;">
+			<div style="position: absolute;left: 50%;transform: translateX(-50%);">[掌控]小电视设置</div>
+			<button id="fullScreenButton" onclick="toggleFullScreen()" style="position: absolute;right: 10px;width:66px;background-color:#666">全屏</button>
+		</div>
+		<iframe src="index.html" width="100%" height="100%" style="border: none;"></iframe>
+	</div>
+  </body>
+  <script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+    function toggleFullScreen() {
+        var elem = document.documentElement;  // 获取整个文档的元素
+
+        if (!isFullScreen()) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();  // W3C 全屏标准
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();  // Firefox
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();  // Chrome 和 Safari
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();  // IE/Edge
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();  // W3C 全屏标准
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();  // Firefox
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();  // Chrome 和 Safari
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();  // IE/Edge
+            }
+        }
+    }
+
+    function isFullScreen() {
+        return (
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            document.mozFullScreenElement ||
+            document.msFullscreenElement
+        );
+    }
+
+    document.onfullscreenchange = document.onwebkitfullscreenchange = document.onmozfullscreenchange = function () {
+        var fullScreenButton = document.getElementById('fullScreenButton');
+        if (isFullScreen()) {
+            fullScreenButton.textContent = '退出全屏';
+        } else {
+            fullScreenButton.textContent = '全屏';
+        }
+    };
+  </script>
+</html>

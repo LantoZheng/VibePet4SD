@@ -1,0 +1,353 @@
+[
+  {
+    "file": "page_00_208000.html",
+    "offset": "0x208000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css"
+    ],
+    "scripts": [
+      "index.html"
+    ],
+    "routes": []
+  },
+  {
+    "file": "page_01_20a000.html",
+    "offset": "0x20a000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetAlarmClock?",
+      "/SetAlarmClockDel?Value=",
+      "/SetAlarmClockIcon?Value=",
+      "/SetAlarmClockStop"
+    ]
+  },
+  {
+    "file": "page_02_20e000.html",
+    "offset": "0x20e000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetBrightness?Value=",
+      "/SetPlanBrightness?Enable="
+    ]
+  },
+  {
+    "file": "page_03_210000.html",
+    "offset": "0x210000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html",
+      "http://www.weather.com.cn/"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetCity?",
+      "/SetCity?Reset=1"
+    ]
+  },
+  {
+    "file": "page_04_212000.html",
+    "offset": "0x212000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetColor?Hour="
+    ]
+  },
+  {
+    "file": "page_05_214000.html",
+    "offset": "0x214000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/index.css",
+      "https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.css",
+      "index.html",
+      "https://ezgif.com/",
+      "index.html",
+      "https://ezgif.com/"
+    ],
+    "scripts": [
+      "/js/cropperjs-gif-all.js",
+      "https://cdn.bootcdn.net/ajax/libs/vue/2.6.14/vue.min.js",
+      "https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.js",
+      "img/back.svg",
+      "img/back.svg",
+      "img/gif/clock.gif",
+      "img/image.svg",
+      "img/error.svg",
+      "/js/main2.js"
+    ],
+    "routes": [
+      "/SetDeleteGif?ImageName=clock.gif",
+      "/SetFileUpload?Type=gif"
+    ]
+  },
+  {
+    "file": "page_06_218000.html",
+    "offset": "0x218000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/index.css",
+      "https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.css",
+      "index.html"
+    ],
+    "scripts": [
+      "https://cdn.bootcdn.net/ajax/libs/vue/2.6.14/vue.min.js",
+      "https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.js",
+      "img/back.svg",
+      "/img/image.svg",
+      "/img/check.svg",
+      "/img/error.svg",
+      "img/delete.svg",
+      "/js/upload2.js"
+    ],
+    "routes": [
+      "/SetDeleteImage?ImageName=all",
+      "/SetFileUpload?Type=jpg"
+    ]
+  },
+  {
+    "file": "page_07_21a000.html",
+    "offset": "0x21a000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetLedLight?Enable="
+    ]
+  },
+  {
+    "file": "page_08_21c000.html",
+    "offset": "0x21c000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetEnergyMode?Wifi=",
+      "/SetPage?Value="
+    ]
+  },
+  {
+    "file": "page_09_21e000.html",
+    "offset": "0x21e000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetScreenRotation?Value="
+    ]
+  },
+  {
+    "file": "page_10_220000.html",
+    "offset": "0x220000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetStock?"
+    ]
+  },
+  {
+    "file": "page_11_222000.html",
+    "offset": "0x222000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetTimeStyle?Value="
+    ]
+  },
+  {
+    "file": "page_12_224000.html",
+    "offset": "0x224000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetTimeZone?Value="
+    ]
+  },
+  {
+    "file": "page_13_226000.html",
+    "offset": "0x226000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/GetWiFiList",
+      "/SetWiFi?WiFiSSID="
+    ]
+  },
+  {
+    "file": "page_14_228000.html",
+    "offset": "0x228000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": [
+      "/SetCommand?BrightInvert=",
+      "/SetCommand?ColorInvert="
+    ]
+  },
+  {
+    "file": "page_15_2ce000.html",
+    "offset": "0x2ce000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "img/back.svg",
+      "/js/zk.js"
+    ],
+    "routes": [
+      "/GetDeviceInfo"
+    ]
+  },
+  {
+    "file": "page_16_2d0000.html",
+    "offset": "0x2d0000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "index.html"
+    ],
+    "scripts": [
+      "/js/zk.js",
+      "img/back.svg"
+    ],
+    "routes": []
+  },
+  {
+    "file": "page_17_3aa000.html",
+    "offset": "0x3aa000",
+    "title": "掌控小电视",
+    "links": [
+      "/favicon.ico",
+      "css/common.css",
+      "css/icon.css",
+      "https://at.alicdn.com/t/c/font_3999075_oo8woxt24g.css",
+      "https://at.alicdn.com/t/c/font_3999075_lqmf7fj2vp.css",
+      "setwifi.html",
+      "setpage.html",
+      "help.html",
+      "setcolor.html",
+      "setbrightness.html",
+      "settimestyle.html",
+      "setledlight.html",
+      "setstock.html",
+      "setcity.html",
+      "setscreenrotation.html",
+      "setimage.html",
+      "setgif.html",
+      "setalarmclock.html",
+      "settimezone.html",
+      "setxscreen.html",
+      "getmore.html",
+      "tencent://message/?uin=21182889&Site=zk&Menu=yes"
+    ],
+    "scripts": [
+      "/js/zk.js"
+    ],
+    "routes": [
+      "/GetDeviceInfo",
+      "/SetPage?Click",
+      "/SetPage?DoubleClick",
+      "/SetPage?LongClick",
+      "/SetRestart?Restart"
+    ]
+  }
+]

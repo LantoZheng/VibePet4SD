@@ -1,0 +1,46 @@
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Build artifacts
+*.bin
+*.elf
+*.hex
+firmware.bin
+
+# Dev artifacts
+ConversationWithCodex.md
+.agents/
+.codex/
+
+# Archives & binaries
+*.zip
+*.7z
+*.rar
+
+# Flash dumps
+esp8266_*_flash_*.bin
+
+# Temp files
+*.tmp
+*.log

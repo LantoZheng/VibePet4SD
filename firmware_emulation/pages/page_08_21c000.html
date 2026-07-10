@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/common.css">
+    <script src="/js/zk.js"></script>
+    <style>
+		button {
+			width:80px;
+		}
+	</style>
+  </head>
+  
+  <body>
+    <div class="block">
+      <div class="card">
+		  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+		  <div>全局设置</div>
+	  </div>
+      <div class="card">
+            <div class="middle" style="line-height: 2em;">
+              <div>选择开机显示页：</div>
+              <div class="clock-type">
+                <select id="clock-type1" style="width:130px;">
+                  <option value="0" selected>菜单页</option>
+                  <option value="1">天气时钟</option>
+                  <option value="2">相册页</option>
+                  <option value="4">股票页</option>
+				</select>
+              </div>
+            </div>
+          <button style="margin-top:10px;" onclick="OnSave()">保存</button>
+      </div>
+<!--       <div class="card line-height">
+          <div class="plan-time">
+          <div class="switch-btn">
+            <span>整点报时：</span>
+            <label class="switch">
+              <input type="checkbox" id="led-enable" />
+              <span class="slider"></span>
+            </label>
+          </div>
+            <div class="start-time">
+				<span>开始时间：</span>
+					<select id="start-time" style="width:71px;line-height: 1.0em;"></select>
+			</div>
+            <div class="end-time">
+				<span>结束时间：</span>
+					<select id="end-time" style="width:71px;line-height: 1.0em;"></select>
+			</div>
+		  </div>
+		  <div class="btn-group">
+          <button class="btn-save" onclick="OnSavePlan()">保存</button>
+		  </div>
+      </div> -->
+<!--       <div class="card line-height">
+			<div>
+				节能选项：
+			</div>
+			<div>
+				当设置下列项时，按键无操作将在1分钟后关闭WiFi或者屏幕。再次连接WiFi或者点亮屏幕需要按键操作，因此请确保您的小电视有物理按键。否则将不能重新联网或点亮屏幕，只能重新插电。
+			</div>
+			<div class="plan-time">
+			  <div class="wifi" style="margin-bottom:10px;">
+				<span>无操作关闭WiFi：</span>
+				<label class="switch">
+				  <input type="checkbox" id="wifi" />
+				  <span class="slider"></span>
+				</label>
+			  </div>
+			  <div class="led" style="margin-bottom:10px;">
+				<span>无操作关闭屏幕：</span>
+				<label class="switch">
+				  <input type="checkbox" id="led" />
+				  <span class="slider"></span>
+				</label>
+			  </div>
+			</div>
+			<div class="btn-group">
+			<button class="btn-save" onclick="OnSaveEnergyMode()">保存</button>
+			</div>
+      </div> -->
+    </div>
+    <div id="toast-container"></div>
+  </body>
+
+<script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+    function OnSave() {
+		const _sendData = '/SetPage?Value='+selectedValue+"&Save";
+        console.log(_sendData);
+		sendData(_sendData,1);
+    }
+	
+	let selectedValue=0;
+	let selectInput = document.getElementById('clock-type1');
+    selectInput.value = JSON.parse(localStorage.getItem('sp'));
+	selectInput.addEventListener('change', function() {
+		const selectedOption = selectInput.options[selectInput.selectedIndex];
+		selectedValue = selectedOption.value;
+        const _sendData = '/SetPage?Value='+selectedValue;
+		console.log(_sendData);
+		sendData(_sendData,0);
+	});
+	let ten=JSON.parse(localStorage.getItem('pen'));
+	console.log(ten.toString(16));
+	controlDropdownOptions(ten);  // 传入十六进制值字符串
+	function controlDropdownOptions(hexValue) {
+	  let binaryString = hexValue.toString(2);//parseInt(hexValue, 16).toString(2); // 将十六进制转换为二进制字符串
+	  binaryString = binaryString.padStart(11, '0'); // 左侧补零，使其长度为 11
+	  console.log(binaryString);
+	  let options = document.getElementById("clock-type1").getElementsByTagName("option");
+	  for (let i = 0; i < options.length; i++) {
+		if (i < binaryString.length && binaryString.charAt(binaryString.length - 1 - i) === '1') {
+		  options[i].style.display = "block";  // 显示当前选项
+		} else {
+		  options[i].style.display = "none";   // 隐藏其它选项
+		}
+	  }
+	}
+
+/* 	let checkbox = document.getElementById("wifi");
+	checkbox.checked = JSON.parse(localStorage.getItem('awc'));
+	checkbox = document.getElementById("led");
+	checkbox.checked = JSON.parse(localStorage.getItem('alc'));
+	function OnSaveEnergyMode() {
+		const wifiInvert = document.querySelector(".wifi input").checked ? "1" : "0";
+		const ledInvert = document.querySelector(".led input").checked ? "1" : "0";
+		let _sendData = '/SetEnergyMode?Wifi='+wifiInvert+'&Led='+ledInvert+'&Save';
+
+		console.log(_sendData);
+		sendData(_sendData,1);
+	} */
+</script>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<!-- [掌控]版权所有，盗版必究！ -->
+<!-- All rights reserved by ZhangKong Studio. -->
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>掌控小电视</title>
+    <link rel="stylesheet" href="css/index.css">
+	<link href="https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.css" rel="stylesheet">
+	<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.14/vue.min.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+    <style>
+/* 		html,body {
+			min-height:100vh;
+			width:100%;
+			display:flex;
+			justify-content:center;
+			background-color:#ffdee9;
+			background-image:linear-gradient(0deg,#ffdee9 0%,#b5fffc 100%);
+			overflow-y: auto;
+		} */
+		.backButton {
+		  position: absolute;
+		  left: 10px;
+		}
+		.container {
+		  display: flex;
+		  justify-content: center;
+		}
+		.hidden {
+		  display: none;
+		}
+	</style>
+</head>
+  <body>
+<div class="container">
+  <form>
+    <div class="radio-group">
+      <input type="radio" id="option1" name="options" value="option1">
+      <label for="option1">直接上传</label>
+      <input type="radio" id="option2" name="options" value="option2" checked>
+      <label for="option2">编辑后上传(有编辑功能)</label>
+    </div>
+  </form>
+</div>
+    <div id="app" class="app" style="opacity: 1;">
+	<div style="position: relative;">
+	  <a href="index.html"><img class="backButton" src="img/back.svg"></a>
+      <div class="title">图片管理</div>
+	</div>
+      <div class="status-layout">
+        <div class="status-circle">
+          <div class="circle-text">{{ Math.round(status.used / status.total * 100) }}%</div>
+          <canvas id="circle-canvas" width="100" height="100"></canvas>
+        </div>
+        <div class="status-text">
+          <div class="status-title">存储空间</div>
+          <div>{{ getSize(status.used) }} / {{ getSize(status.total) }}</div></div>
+      </div>
+<div id="div1" class="hidden">
+    <p>点击按钮选择JPG文件上传</p>
+    <form id="gif-form">
+      <input id="gif-file-input" type="file" name="data" accept=".jpg,.jpeg">
+      <input class="button" type="submit" value="上传" disabled>
+    </form>
+	<div id="image-info" style="display:none;">
+		<img id="gif-image" src="" alt="Example GIF">
+		<div>
+		  文件大小：<span id="file-size"></span>
+		</div>
+	</div>
+  <div class="sub-title" style="color:red;margin:20px;">
+    直接上传的图片要求：</br>不大于100KB；
+  </div>
+</div>
+      <div id="div2">
+		<div id="previewdiv"  style="display: none;width:240;height:240;margin:20px 0 0 0;">
+			<img id="preview-image" src="" style="width:240px;height:240px;">
+		</div>
+		<div id="uploadLayout" class="upload-layout">
+			<div class="upload-box" @click="clickUpload">
+			  <img src="/img/image.svg">
+			  <div class="">点击按钮选择jpg文件上传</div>
+			  <input id="fileInput" type="file" accept=".jpg,.jpeg" style="display: none;" @change="fileClick">
+			</div>
+		</div>
+	  </div>
+      <div id="edit-layout" class="edit-layout" style="display: none;">
+        <div class="edit-header">
+          <div class="file-tips"></div>
+          <!-- <div @click="uploadFile"><img src="/img/check.svg" class="op-icon"></div> -->
+		  <input type="button" value="上传" @click="uploadFile">
+          <div @click="removeUploadFile"><img src="/img/error.svg" class="op-icon"></div>
+		  </div>
+        <img id="edit-image">
+        <div class="control-tips">鼠标滚轮或双指可以缩放图片大小</div>
+	  </div>
+		<div style="margin-top:10px;">
+			<input type="button" @click="getList" value="获取图片列表">
+		</div>
+		<div style="margin-top:10px;">
+			<input type="button" onclick="OnClear()" value="清空相册">
+		</div>
+		<div class="file-list">
+		  <div class="file-item" v-for="image in list" :key="image.name">
+			<img :src="'img/image/' + image.name" class="image-preview">
+			<div class="file-info">
+			  <div :title="image.name" class="file-name">{{ image.name }}</div>
+			  <div class="file-size">{{ (image.size/1024).toFixed(2) }}KB</div>
+			</div>
+			<img src="img/delete.svg" class="op-icon" @click="deleteFile(image)">
+		  </div>
+		</div>
+    </div>
+	<div id="toast-container"></div>
+    <script src="/js/upload2.js"></script>
+    <script>
+
+/*[掌控]版权所有，盗版必究！*/
+/*All rights reserved by ZhangKong Studio.*/
+
+	///////////////////////////////////////////////////
+	const option1 = document.getElementById('option1');
+	const option2 = document.getElementById('option2');
+	const div1 = document.getElementById('div1');
+	const div2 = document.getElementById('div2');
+
+	option1.addEventListener('change', function() {
+	if (option1.checked) {
+	  div1.classList.remove('hidden');
+	  div2.classList.add('hidden');
+	}
+	});
+
+	option2.addEventListener('change', function() {
+	if (option2.checked) {
+	  div1.classList.add('hidden');
+	  div2.classList.remove('hidden');
+	}
+	});
+	///////////////////////////////////////////////////
+	const submitButton = document.querySelector('.button');
+	var flag=true;
+	const fileInputElement = document.getElementById('gif-file-input');
+	const imageElement = document.getElementById('gif-image');
+	const fileSizeElement = document.getElementById('file-size');
+	const gifForm = document.getElementById('gif-form');
+	gifForm.addEventListener('submit', function(event) {
+		event.preventDefault(); // 阻止表单的默认行为，即跳转页面
+		const formData = new FormData(gifForm);
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', '/SetFileUpload?Type=jpg', true); // 设置请求方法、URL和异步标志
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState === XMLHttpRequest.DONE) {
+				if (xhr.status === 200) {
+					console.log(xhr.responseText);
+					showToast(xhr.responseText, 1000)
+				} else {
+					console.error('请求失败');
+					showToast('请求失败', 1500)
+				}
+				fileInputElement.value = "";
+				imageElement.src="";
+				const imageinfo = document.getElementById("image-info");
+				imageinfo.style.display = "none";
+			}
+		};
+		xhr.send(formData); // 发送FormData对象
+	});
+    // 监听文件输入框的 change 事件
+    fileInputElement.addEventListener('change', function() {
+		imageElement.src = '';
+		flag=true;
+		const file = this.files[0];
+		const img = new Image();
+		img.onload = function() {
+			imageElement.src = img.src;
+			const imageSize = file.size;
+			let isize=(imageSize / 1024).toFixed(1) + " KB";
+			if((imageSize / 1024).toFixed(1)>100)
+			{
+				flag=false;
+				isize = isize + "(图片大小不能超过100KB！)";
+			}
+			fileSizeElement.textContent = isize;
+
+			const imageinfo = document.getElementById("image-info");
+			imageinfo.style.display = "block";
+			updateButtonStatus(flag);
+		};
+		img.src = URL.createObjectURL(file);
+	});
+	function updateButtonStatus(flag) {
+	  submitButton.disabled = !flag;
+	}
+	
+	function OnClear() {
+		let _sendData='/SetDeleteImage?ImageName=all';
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", _sendData, true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				//callback(xhr.responseText);
+				showToast("删除成功", 1000);
+			}
+			else
+			{
+				showToast(xhr.responseText, 2000);
+				console.log(xhr.status+":"+xhr.responseText);
+			}
+		}
+		xhr.send();
+	}
+	
+	function showToast(message, duration) {
+		var toastContainer = document.getElementById('toast-container');
+		toastContainer.innerHTML = message;
+		toastContainer.style.display = 'block';
+		setTimeout(function() {
+			toastContainer.style.display = 'none';
+		},
+		duration);
+	// <div id="toast-container"></div>
+	}
+	
+	</script>
+	
+	</body>
+
+</html>
